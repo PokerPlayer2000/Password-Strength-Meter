@@ -1,6 +1,7 @@
 import math
 import string
 import random
+import os
 
 def calculate_entropy(password: str) -> float:
     # define characters
@@ -38,8 +39,12 @@ def generate_random_password(length) -> str:
     return new_password
 
 def generate_words_password(num_words=4) -> str:
+    # get the directory where this script is located
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    wordlist_path = os.path.join(script_dir, 'bip39-words.txt')
+    
     # read word list from file
-    with open('bip39-words.txt', 'r') as file:
+    with open(wordlist_path, 'r') as file:
         word_list = [line.strip() for line in file.readlines()]
 
     # generate words
@@ -104,7 +109,7 @@ print(f"The entropy of the password is: {entropy:.2f} bits")
 
 if entropy < 128:
     print("Your password is too weak. Let's make a new one.")
-    make_password
+    make_password()
 else:
     print("Your password is strong enough.")
 
